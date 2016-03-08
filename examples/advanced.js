@@ -13,28 +13,58 @@ function getParam(name) {
   window.renderer = null;
 
   window.camera = null;
+  var max_rotate = 0;
+  var rotate_direction = 1;
+  var onProgress = function ( xhr ) {
+          // if ( xhr.lengthComputable ) {
+          //   var percentComplete = xhr.loaded / xhr.total * 100;
+          //   console.log( Math.round(percentComplete, 2) + '% downloaded' );
+          // }
+        };
 
+  var onError = function ( xhr ) {
+        };
   initScene = function(element) {
     var axis, pointLight;
     window.scene = new THREE.Scene();
     window.renderer = new THREE.WebGLRenderer({
       alpha: true
     });
-    renderer.setClearColor(0x000000, 1);
+    // renderer.setClearColor(0x000000, 1);
     renderer.setSize(window.innerWidth, window.innerHeight);
     element.appendChild(renderer.domElement);
     axis = new THREE.AxisHelper(40);
-    scene.add(axis);
+    // scene.add(axis);
     scene.add(new THREE.AmbientLight(0x888888));
     pointLight = new THREE.PointLight(0xFFffff);
     pointLight.position = new THREE.Vector3(-20, 10, 0);
     pointLight.lookAt(new THREE.Vector3(0, 0, 0));
     scene.add(pointLight);
     window.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
-    camera.position.fromArray([0, 160, 400]);
+    camera.position.fromArray([0, 600, 400]);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     window.controls = new THREE.TrackballControls(camera);
     scene.add(camera);
+    var loader = new THREE.OBJMTLLoader();
+    loader.load( 'leather_wallet_04.obj', 'leather_wallet_04.mtl', function ( object ) {
+      carobject = object;
+      carobject.traverse( function ( child ) {
+          //     if (child.geometry != undefined)
+          //     {
+          //       console.log('normals compute');
+          //     child.geometry.computeVertexNormals(true);
+          //     child.geometry.computeFaceNormals();
+          //     }
+            var scale = 5;
+            child.scale.set(scale, scale, scale);
+      });
+      carobject.rotation.y +=150;
+      carobject.rotation.x +=50;
+      // carobject.rotation.z =50;
+      // object.position.y = - 80;
+      scene.add( carobject );
+
+    }, onProgress, onError );
     window.addEventListener('resize', function() {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -52,15 +82,15 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
     initScene(document.body);
   }
 
-  stats = new Stats();
+  // stats = new Stats();
 
-  stats.domElement.style.position = 'absolute';
+  // stats.domElement.style.position = 'absolute';
 
-  stats.domElement.style.left = '0px';
+  // stats.domElement.style.left = '0px';
 
-  stats.domElement.style.top = '0px';
+  // stats.domElement.style.top = '0px';
 
-  document.body.appendChild(stats.domElement);
+  // document.body.appendChild(stats.domElement);
 
   window.controller = controller = new Leap.Controller;
 
@@ -84,17 +114,28 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
     stats: stats,
     camera: camera,
     boneLabels: function(boneMesh, leapHand) {
-      if (boneMesh.name.indexOf('Finger_03') === 0) {
-        return leapHand.pinchStrength;
+      if (rotate_direction == 1)
+      {
+        boneMesh.rotation.z += .1;
+        max_rotate += .1;
+      } else {
+        boneMesh.rotation.z -= .1;
+        max_rotate -= .1;
+      }
+      if (max_rotate >= 10)
+      {
+        rotate_direction = -1;
+      } else if (max_rotate <= -10) {
+        rotate_direction = 1;
       }
     },
     boneColors: function(boneMesh, leapHand) {
-      if ((boneMesh.name.indexOf('Finger_0') === 0) || (boneMesh.name.indexOf('Finger_1') === 0)) {
-        return {
-          hue: 0.6,
-          saturation: leapHand.pinchStrength
-        };
-      }
+      // if ((boneMesh.name.indexOf('Finger_0') === 0) || (boneMesh.name.indexOf('Finger_1') === 0)) {
+      //   return {
+      //     hue: 0.6,
+      //     saturation: leapHand.pinchStrength
+      //   };
+      // }
     },
     checkWebGL: true
   }).connect();

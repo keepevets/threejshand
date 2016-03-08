@@ -429,7 +429,7 @@ function onReady(handler) {
       var data, handMesh, i;
       data = (new THREE.JSONLoader).parse(JSON);
       data.materials[0].skinning = true;
-      data.materials[0].transparent = true;
+      data.materials[0].transparent = false;
       data.materials[0].opacity = 0.7;
       data.materials[0].emissive.setHex(0x888888);
       data.materials[0].vertexColors = THREE.VertexColors;

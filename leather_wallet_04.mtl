@@ -1,0 +1,15 @@
+# Max2Mtl Version 4.0 Mar 10th, 2001
+#
+newmtl Material__3
+Ka  0.6 0.6 0.6
+Kd  0.6 0.6 0.6
+Ks  0.9 0.9 0.9
+map_ka leather_wallet_normal.png
+map_kd leather_wallet.png
+map_ks leather_wallet_bump.png
+
+d  1.0
+Ns  4.0
+illum 2
+#
+# EOF
