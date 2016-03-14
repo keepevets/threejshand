@@ -53,7 +53,7 @@ function getParam(name) {
         // light.target.position.set( 0, 0, 0 );
         scene.add( light );
     var loader = new THREE.OBJMTLLoader();
-    loader.load( 'pen_2.obj', 'pen.mtl', function ( object ) {
+    loader.load( 'pen_3.obj', 'pen.mtl', function ( object ) {
       carobject = object;
       carobject.traverse( function ( child ) {
           //     if (child.geometry != undefined)
@@ -134,9 +134,9 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
       }
       if (leapHand.pinchStrength > .6)
       {
-        carobject.position.x = leapHand.palmPosition[0]-20;
-        carobject.position.y = leapHand.palmPosition[1]-(30*boneMesh.rotation.x)-30;
-        carobject.position.z = leapHand.palmPosition[2]-25;
+        carobject.position.x = leapHand.palmPosition[0];//-20;
+        carobject.position.y = leapHand.palmPosition[1]-(30*boneMesh.rotation.x);//-30;
+        carobject.position.z = leapHand.palmPosition[2];//-25;
         // carobject.rotation.y = -1*boneMesh.rotation.y;//;
         // carobject.rotation.x = boneMesh.rotation.x;
         // carobject.rotation.z = boneMesh.rotation.z;
