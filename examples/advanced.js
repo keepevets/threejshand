@@ -45,10 +45,11 @@ function getParam(name) {
   light1.position.set(300,500,700);
   scene.add(light1);
     window.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100000);
-    camera.position.fromArray([0, 900, 900]);
-    camera.lookAt(new THREE.Vector3(0, 600, 900));
+    camera.position.fromArray([0, 700, 900]);
+    // camera.lookAt(new THREE.Vector3(0, 600, 900));
     window.controls = new THREE.TrackballControls(camera);
     // scene.addx(camera);
+    controls.target = new THREE.Vector3(0, 400, 400);
             var light = new THREE.DirectionalLight( 0xffffff, 1 );
         light.position.set( -200, 200, -200 ).normalize();
         // light.target.position.set( 0, 0, 0 );
