@@ -67,7 +67,7 @@ function getParam(name) {
             var scale = 3;
             child.scale.set(scale, scale, scale);
       });
-
+      carobject.position.y =20;
       carobject.rotation.y =0;//1.5708;//-3.14/2;
       carobject.rotation.x =0;
       // carobject.rotation.z =50;
@@ -90,7 +90,7 @@ function getParam(name) {
             child.scale.set(scale, scale, scale);
       });
 
-      tableobject.position.y = -525;
+      tableobject.position.y = -505;
       tableobject.position.z = -50;
       // carobject.rotation.z =50;
       // object.position.y = 80;
@@ -217,8 +217,8 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
 
 controller.on('frame', function(frame) {
   
-      if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.position.y > 0) {
-        carobject.position.y = carobject.position.y - 9.8;
+      if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.position.y > 20) {
+        carobject.position.y = carobject.position.y - 9;
       }
       if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.rotation.y > 0) {
         
