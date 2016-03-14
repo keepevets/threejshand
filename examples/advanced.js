@@ -35,7 +35,7 @@ function getParam(name) {
     renderer.setSize(window.innerWidth, window.innerHeight);
     element.appendChild(renderer.domElement);
     axis = new THREE.AxisHelper(40);
-    // scene.add(axis);
+    scene.add(axis);
     //scene.add(new THREE.AmbientLight(0xffffff));
     pointLight = new THREE.PointLight(0xFFffff);
     pointLight.position = new THREE.Vector3(20, 10, 20);
@@ -140,6 +140,7 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
         carobject.position.z = leapHand.palmPosition[2];//-25;
       
         carobject.rotation.z = leapHand.roll();
+        carobject.rotation.x = leapHand.pitch();
         carobject.rotation.y = -1*leapHand.yaw();
         object_grip = true;
       } else {
@@ -191,7 +192,6 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
   }
 
 controller.on('frame', function(frame) {
-  var hand, boneMesh;
   
        if (typeof carobject !== 'undefined' && object_grip == false && carobject.position.y > 0) {
         carobject.position.y = carobject.position.y - 9.8;
