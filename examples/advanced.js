@@ -134,7 +134,7 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
       }
       if (leapHand.pinchStrength > .6)
       {
-        carobject.position.x = leapHand.palmPosition[0];
+        carobject.position.x = leapHand.palmPosition[0]-20;
         carobject.position.y = leapHand.palmPosition[1]-(30*boneMesh.rotation.x)-30;
         carobject.position.z = leapHand.palmPosition[2]-25;
         // carobject.rotation.y = -1*boneMesh.rotation.y;//;
