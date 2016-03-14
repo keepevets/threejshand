@@ -44,7 +44,7 @@ var Detector = {
 		element.style.color = '#000';
 		element.style.padding = '1.5em';
 		element.style.width = '400px';
-		element.style.margin = '5em auto 0';
+		element.style.margin = '0 auto 0';
 
 		if ( ! this.webgl ) {
 
@@ -430,8 +430,8 @@ function onReady(handler) {
       data = (new THREE.JSONLoader).parse(JSON);
       data.materials[0].skinning = true;
       data.materials[0].transparent = false;
-      data.materials[0].opacity = 0.7;
-      data.materials[0].emissive.setHex(0x888888);
+      data.materials[0].opacity = .9;
+      data.materials[0].emissive.setHex(0xE8CDA8);
       data.materials[0].vertexColors = THREE.VertexColors;
       data.materials[0].depthTest = true;
       _extend(data.materials[0], scope.materialOptions);

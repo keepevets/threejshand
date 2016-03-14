@@ -35,18 +35,25 @@ function getParam(name) {
     element.appendChild(renderer.domElement);
     axis = new THREE.AxisHelper(40);
     // scene.add(axis);
-    scene.add(new THREE.AmbientLight(0x888888));
+    //scene.add(new THREE.AmbientLight(0xffffff));
     pointLight = new THREE.PointLight(0xFFffff);
-    pointLight.position = new THREE.Vector3(-20, 10, 0);
+    pointLight.position = new THREE.Vector3(20, 10, 20);
     pointLight.lookAt(new THREE.Vector3(0, 0, 0));
-    scene.add(pointLight);
-    window.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
-    camera.position.fromArray([0, 600, 400]);
+    // scene.add(pointLight);
+     var light1 = new THREE.PointLight(0xeeeeee);
+  light1.position.set(300,500,700);
+  scene.add(light1);
+    window.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
+    camera.position.fromArray([0, 700, 600]);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     window.controls = new THREE.TrackballControls(camera);
     scene.add(camera);
+            var light = new THREE.DirectionalLight( 0xffffff, 1 );
+        light.position.set( -200, 200, -200 ).normalize();
+        // light.target.position.set( 0, 0, 0 );
+        scene.add( light );
     var loader = new THREE.OBJMTLLoader();
-    loader.load( 'leather_wallet_04.obj', 'leather_wallet_04.mtl', function ( object ) {
+    loader.load( 'pen_2.obj', 'pen.mtl', function ( object ) {
       carobject = object;
       carobject.traverse( function ( child ) {
           //     if (child.geometry != undefined)
@@ -55,13 +62,14 @@ function getParam(name) {
           //     child.geometry.computeVertexNormals(true);
           //     child.geometry.computeFaceNormals();
           //     }
-            var scale = 5;
+            var scale = 3;
             child.scale.set(scale, scale, scale);
       });
-      carobject.rotation.y +=150;
-      carobject.rotation.x +=50;
+
+      carobject.rotation.y =0;//1.5708;//-3.14/2;
+      carobject.rotation.x =0;
       // carobject.rotation.z =50;
-      // object.position.y = - 80;
+      // object.position.y = 80;
       scene.add( carobject );
 
     }, onProgress, onError );
@@ -93,7 +101,7 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
   // document.body.appendChild(stats.domElement);
 
   window.controller = controller = new Leap.Controller;
-
+  var grabbed = false;
   controller.use('handHold').use('transform', {
     position: new THREE.Vector3(1, 0, 0)
   }).use('handEntry').use('screenPosition').use('riggedHand', {
@@ -101,7 +109,7 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
     renderer: renderer,
     scale: getParam('scale'),
     positionScale: getParam('positionScale'),
-    helper: true,
+    helper: false,
     offset: new THREE.Vector3(0, 0, 0),
     renderFn: function() {
       renderer.render(scene, camera);
@@ -114,20 +122,40 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
     stats: stats,
     camera: camera,
     boneLabels: function(boneMesh, leapHand) {
+
       if (rotate_direction == 1)
       {
-        boneMesh.rotation.z += .1;
-        max_rotate += .1;
+        boneMesh.rotation.x += .06;
+        
+        max_rotate += .06;
       } else {
-        boneMesh.rotation.z -= .1;
-        max_rotate -= .1;
+        boneMesh.rotation.x -= .06;
+        max_rotate -= .06;
       }
-      if (max_rotate >= 10)
+      if (leapHand.pinchStrength > .6)
+      {
+        carobject.position.x = leapHand.palmPosition[0];
+        carobject.position.y = leapHand.palmPosition[1]-(30*boneMesh.rotation.x)-30;
+        carobject.position.z = leapHand.palmPosition[2]-25;
+        // carobject.rotation.y = -1*boneMesh.rotation.y;//;
+        // carobject.rotation.x = boneMesh.rotation.x;
+        // carobject.rotation.z = boneMesh.rotation.z;
+        // carobject.rotation.x = 1.5708/leapHand.roll();
+        carobject.rotation.z = leapHand.roll();
+        carobject.rotation.y = -1*leapHand.yaw();
+        // carobject.rotation.y = (-3.14/2)+(-1*leapHand.roll());
+        // carobject.rotation.z = boneMesh.rotation.z - leapHand.pitch();
+      }
+      // carobject.rotation.z = boneMesh.rotation.x;// +leapHand.pitch();
+      
+      // carobject.rotation.y = boneMesh.rotation.y;// + 3.14;// + leapHand.roll();
+      if (max_rotate >= 4)
       {
         rotate_direction = -1;
-      } else if (max_rotate <= -10) {
+      } else if (max_rotate <= -4) {
         rotate_direction = 1;
       }
+     
     },
     boneColors: function(boneMesh, leapHand) {
       // if ((boneMesh.name.indexOf('Finger_0') === 0) || (boneMesh.name.indexOf('Finger_1') === 0)) {
