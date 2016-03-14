@@ -35,7 +35,7 @@ function getParam(name) {
     renderer.setSize(window.innerWidth, window.innerHeight);
     element.appendChild(renderer.domElement);
     axis = new THREE.AxisHelper(40);
-    scene.add(axis);
+    // scene.add(axis);
     //scene.add(new THREE.AmbientLight(0xffffff));
     pointLight = new THREE.PointLight(0xFFffff);
     pointLight.position = new THREE.Vector3(20, 10, 20);
