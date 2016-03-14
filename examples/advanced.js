@@ -235,7 +235,6 @@ controller.on('frame', function(frame) {
       //   }      
       // }
       if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.rotation.x > 0.1) {
-        console.log(carobject.rotation.x);
         if (carobject.rotation.x > .5) {
           carobject.rotation.x = carobject.rotation.x - .5;
         } else if (carobject.rotation.x > .05) {
@@ -265,7 +264,6 @@ controller.on('frame', function(frame) {
       //   }      
       // }
       if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.rotation.x < 0) {
-        console.log(carobject.rotation.x);
 
         if (carobject.rotation.x < -.5) {
           carobject.rotation.x = carobject.rotation.x + .5;
