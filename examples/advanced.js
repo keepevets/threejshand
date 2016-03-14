@@ -44,11 +44,11 @@ function getParam(name) {
      var light1 = new THREE.PointLight(0xeeeeee);
   light1.position.set(300,500,700);
   scene.add(light1);
-    window.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.fromArray([0, 700, 600]);
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
+    window.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100000);
+    camera.position.fromArray([0, 900, 900]);
+    camera.lookAt(new THREE.Vector3(0, 600, 900));
     window.controls = new THREE.TrackballControls(camera);
-    scene.add(camera);
+    // scene.addx(camera);
             var light = new THREE.DirectionalLight( 0xffffff, 1 );
         light.position.set( -200, 200, -200 ).normalize();
         // light.target.position.set( 0, 0, 0 );
@@ -133,7 +133,8 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
         boneMesh.rotation.x -= .06;
         max_rotate -= .06;
       }
-      if (leapHand.pinchStrength > .6)
+      console.log(leapHand.palmPosition[1])
+      if (leapHand.pinchStrength > .6 && (carobject.position.y + 120 > leapHand.palmPosition[1]) && (leapHand.palmPosition[1] > carobject.position.y - 100))
       {
         carobject.position.x = leapHand.palmPosition[0];//-20;
         carobject.position.y = leapHand.palmPosition[1]-(30*boneMesh.rotation.x);//-30;
