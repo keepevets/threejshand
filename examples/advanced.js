@@ -193,7 +193,7 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
 
 controller.on('frame', function(frame) {
   
-       if (typeof carobject !== 'undefined' && object_grip == false && carobject.position.y > 0) {
+       if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.position.y > 0) {
         carobject.position.y = carobject.position.y - 9.8;
       }
 });
