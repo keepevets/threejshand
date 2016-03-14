@@ -75,6 +75,29 @@ function getParam(name) {
       scene.add( carobject );
 
     }, onProgress, onError );
+
+    var loader2 = new THREE.OBJMTLLoader();
+    loader2.load( 'kids_wooden_desk.obj', 'kids_wooden_desk.mtl', function ( object ) {
+      tableobject = object;
+      tableobject.traverse( function ( child ) {
+          //     if (child.geometry != undefined)
+          //     {
+          //       console.log('normals compute');
+          //     child.geometry.computeVertexNormals(true);
+          //     child.geometry.computeFaceNormals();
+          //     }
+            var scale = 4;
+            child.scale.set(scale, scale, scale);
+      });
+
+      tableobject.position.y = -525;
+      tableobject.position.z = -50;
+      // carobject.rotation.z =50;
+      // object.position.y = 80;
+      scene.add( tableobject );
+
+    }, onProgress, onError );
+
     window.addEventListener('resize', function() {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -194,9 +217,68 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
 
 controller.on('frame', function(frame) {
   
-       if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.position.y > 0) {
+      if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.position.y > 0) {
         carobject.position.y = carobject.position.y - 9.8;
       }
+      if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.rotation.y > 0) {
+        
+        if (carobject.rotation.y > .5) {
+          carobject.rotation.y = carobject.rotation.y - .5;
+        } else if (carobject.rotation.y > .05) {
+          carobject.rotation.y = carobject.rotation.y - .05;
+        } else {
+          carobject.rotation.y = carobject.rotation.y - .01;
+        }      
+      }
+      if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.rotation.x > 0) {
+
+        if (carobject.rotation.x > .5) {
+          carobject.rotation.x = carobject.rotation.x - .5;
+        } else if (carobject.rotation.x > .05) {
+          carobject.rotation.x = carobject.rotation.x - .05;
+        } else {
+          carobject.rotation.x = carobject.rotation.x - .01;
+        }
+      }
+      if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.rotation.z > 0) {
+        if (carobject.rotation.z > .5) {
+          carobject.rotation.z = carobject.rotation.z - .5;
+        } else if (carobject.rotation.x > .05) {
+          carobject.rotation.z = carobject.rotation.z - .05;
+        } else {
+          carobject.rotation.z = carobject.rotation.z - .01;
+        }
+      }
+      if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.rotation.y < -0.1) {
+        
+        if (carobject.rotation.y < -.5) {
+          carobject.rotation.y = carobject.rotation.y + .5;
+        } else if (carobject.rotation.y < -.05) {
+          carobject.rotation.y = carobject.rotation.y + .05;
+        } else {
+          carobject.rotation.y = carobject.rotation.y + .01;
+        }      
+      }
+      if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.rotation.x < -0.1) {
+
+        if (carobject.rotation.x < -.5) {
+          carobject.rotation.x = carobject.rotation.x + .5;
+        } else if (carobject.rotation.x < -.05) {
+          carobject.rotation.x = carobject.rotation.x + .05;
+        } else {
+          carobject.rotation.x = carobject.rotation.x + .01;
+        }
+      }
+      if (typeof carobject !== 'undefined' && (object_grip == false || frame.hands[0] == undefined) && carobject.rotation.z < -0.1) {
+        if (carobject.rotation.z < -.5) {
+          carobject.rotation.z = carobject.rotation.z + .5;
+        } else if (carobject.rotation.x < -.05) {
+          carobject.rotation.z = carobject.rotation.z + .05;
+        } else {
+          carobject.rotation.z = carobject.rotation.z + .01;
+        }
+      }
+
 });
 
   if (getParam('scenePosition')) {
