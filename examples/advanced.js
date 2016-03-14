@@ -135,20 +135,17 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
       }
       if (leapHand.pinchStrength > .6)
       {
-        object_grip = true;
-      } else {
-        object_grip = false;
-      }
-      if (carobject && object_grip == true){
         carobject.position.x = leapHand.palmPosition[0];//-20;
         carobject.position.y = leapHand.palmPosition[1]-(30*boneMesh.rotation.x);//-30;
         carobject.position.z = leapHand.palmPosition[2];//-25;
       
         carobject.rotation.z = leapHand.roll();
         carobject.rotation.y = -1*leapHand.yaw();
-      } else if (carobject && object_grip == false && carobject.position.y > 0) {
-        carobject.position.y = carobject.position.y - .8;
+        object_grip = true;
+      } else {
+        object_grip = false;
       }
+      
       // carobject.rotation.y = boneMesh.rotation.y;// + 3.14;// + leapHand.roll();
       if (max_rotate >= 4)
       {
@@ -193,6 +190,14 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
     });
   }
 
+controller.on('frame', function(frame) {
+  var hand, boneMesh;
+  
+       if (typeof carobject !== 'undefined' && object_grip == false && carobject.position.y > 0) {
+        carobject.position.y = carobject.position.y - 9.8;
+      }
+});
+
   if (getParam('scenePosition')) {
     window.sphere = new THREE.Mesh(new THREE.SphereGeometry(1), new THREE.MeshBasicMaterial(0x0000ff));
     scene.add(sphere);
@@ -202,6 +207,7 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
         handMesh = frame.hands[0].data('riggedHand.mesh');
         return handMesh.scenePosition(hand.indexFinger.tipPosition, sphere.position);
       }
+
     });
   }
 
