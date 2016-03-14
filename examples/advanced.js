@@ -14,6 +14,7 @@ function getParam(name) {
 
   window.camera = null;
   var max_rotate = 0;
+  var object_grip = false;
   var rotate_direction = 1;
   var onProgress = function ( xhr ) {
           // if ( xhr.lengthComputable ) {
@@ -53,7 +54,7 @@ function getParam(name) {
         // light.target.position.set( 0, 0, 0 );
         scene.add( light );
     var loader = new THREE.OBJMTLLoader();
-    loader.load( 'pen_3.obj', 'pen.mtl', function ( object ) {
+    loader.load( 'pen_6.obj', 'pen.mtl', function ( object ) {
       carobject = object;
       carobject.traverse( function ( child ) {
           //     if (child.geometry != undefined)
@@ -134,20 +135,20 @@ var webglAvailable  = ( function () { try { var canvas = document.createElement(
       }
       if (leapHand.pinchStrength > .6)
       {
+        object_grip = true;
+      } else {
+        object_grip = false;
+      }
+      if (carobject && object_grip == true){
         carobject.position.x = leapHand.palmPosition[0];//-20;
         carobject.position.y = leapHand.palmPosition[1]-(30*boneMesh.rotation.x);//-30;
         carobject.position.z = leapHand.palmPosition[2];//-25;
-        // carobject.rotation.y = -1*boneMesh.rotation.y;//;
-        // carobject.rotation.x = boneMesh.rotation.x;
-        // carobject.rotation.z = boneMesh.rotation.z;
-        // carobject.rotation.x = 1.5708/leapHand.roll();
+      
         carobject.rotation.z = leapHand.roll();
         carobject.rotation.y = -1*leapHand.yaw();
-        // carobject.rotation.y = (-3.14/2)+(-1*leapHand.roll());
-        // carobject.rotation.z = boneMesh.rotation.z - leapHand.pitch();
+      } else if (carobject && object_grip == false && carobject.position.y > 0) {
+        carobject.position.y = carobject.position.y - .8;
       }
-      // carobject.rotation.z = boneMesh.rotation.x;// +leapHand.pitch();
-      
       // carobject.rotation.y = boneMesh.rotation.y;// + 3.14;// + leapHand.roll();
       if (max_rotate >= 4)
       {
